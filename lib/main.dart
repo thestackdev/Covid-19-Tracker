@@ -27,11 +27,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   bool globalLoading = true;
   bool countryLoading = true;
   bool stateLoading = true;
-  
+
   Map<String, dynamic> globalMap;
   Map<String, dynamic> countryMap;
   List<dynamic> stateList;
@@ -154,13 +153,12 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 child: CountryScreen(
                                   map: countryMap,
-                                  name: 'INDIA',
                                 ),
                               ),
                         stateLoading
                             ? CircularProgressIndicator()
                             : StateScreen(
-                                map: stateList[indexOfTg], name: 'TELANGANA'),
+                                map: stateList[indexOfTg]),
                       ],
                     ),
                   ],

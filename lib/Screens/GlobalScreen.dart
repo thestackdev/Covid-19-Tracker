@@ -11,18 +11,25 @@ class GlobalScreen extends StatefulWidget {
 }
 
 class _GlobalScreenState extends State<GlobalScreen> {
+  RegExp reg = new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
+  Function mathFunc = (Match match) => '${match[1]},';
+
+  String insertCommas(String number) {
+    return number.replaceAllMapped(reg, mathFunc).toString();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      child: Container(
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-            color: Color.fromRGBO(3000, 3000, 3000, 0.5),
-            borderRadius: BorderRadius.circular(30)),
-        child: widget.loading
-            ? CircularProgressIndicator()
-            : Column(
+    return widget.loading
+        ? CircularProgressIndicator()
+        : Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: Container(
+              padding: EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                  color: Color.fromRGBO(3000, 3000, 3000, 0.5),
+                  borderRadius: BorderRadius.circular(30)),
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Padding(
@@ -31,27 +38,23 @@ class _GlobalScreenState extends State<GlobalScreen> {
                       'GLOBAL',
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 23,
+                          fontSize: 30,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
-                  widget.loading
-                      ? Padding(
-                          padding: EdgeInsets.all(5),
-                          child: CircularProgressIndicator())
-                      : Container(
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              color: Colors.white70,
-                              borderRadius: BorderRadius.circular(30)),
-                          child: Text(
-                            'Total ${widget.map['confirmed'].toString()}',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 27,
-                                color: Colors.orange[900]),
-                          )),
+                  Container(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: Colors.white70,
+                          borderRadius: BorderRadius.circular(30)),
+                      child: Text(
+                        'Total ${insertCommas(widget.map['confirmed'].toString())}',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 27,
+                            color: Colors.orange[900]),
+                      )),
                   SizedBox(
                     height: 10,
                   ),
@@ -62,19 +65,15 @@ class _GlobalScreenState extends State<GlobalScreen> {
                         Container(
                           child: Column(
                             children: <Widget>[
-                              widget.loading
-                                  ? Padding(
-                                      padding: EdgeInsets.all(5),
-                                      child: CircularProgressIndicator())
-                                  : Text(
-                                      '${widget.map['active'].toString()}',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 27,
-                                          color: Colors.orange),
-                                    ),
+                              Text(
+                                '${insertCommas(widget.map['active'].toString())}',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 27,
+                                    color: Colors.orange),
+                              ),
                               SizedBox(
-                                height: 10,
+                                height: 5,
                               ),
                               Text(
                                 'Active',
@@ -84,21 +83,18 @@ class _GlobalScreenState extends State<GlobalScreen> {
                                     color: Colors.white),
                               ),
                               SizedBox(
-                                height: 10,
+                                height: 15,
                               ),
-                              widget.loading
-                                  ? Padding(
-                                      padding: EdgeInsets.all(5),
-                                      child: CircularProgressIndicator())
-                                  : Text(
-                                      widget.map['new_confirmed'].toString(),
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 25,
-                                          color: Colors.white),
-                                    ),
+                              Text(
+                                insertCommas(
+                                    widget.map['new_confirmed'].toString()),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 25,
+                                    color: Colors.orange),
+                              ),
                               SizedBox(
-                                height: 10,
+                                height: 5,
                               ),
                               Text(
                                 'New',
@@ -110,24 +106,17 @@ class _GlobalScreenState extends State<GlobalScreen> {
                             ],
                           ),
                         ),
-                        SizedBox(
-                          width: 15,
-                        ),
                         Column(
                           children: <Widget>[
-                            widget.loading
-                                ? Padding(
-                                    padding: EdgeInsets.all(5),
-                                    child: CircularProgressIndicator())
-                                : Text(
-                                    widget.map['recovered'].toString(),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 25,
-                                        color: Colors.greenAccent),
-                                  ),
+                            Text(
+                              insertCommas(widget.map['recovered'].toString()),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25,
+                                  color: Colors.greenAccent),
+                            ),
                             SizedBox(
-                              height: 10,
+                              height: 5,
                             ),
                             Text(
                               'Recovered',
@@ -137,21 +126,18 @@ class _GlobalScreenState extends State<GlobalScreen> {
                                   color: Colors.white),
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 15,
                             ),
-                            widget.loading
-                                ? Padding(
-                                    padding: EdgeInsets.all(5),
-                                    child: CircularProgressIndicator())
-                                : Text(
-                                    widget.map['new_recovered'].toString(),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 25,
-                                        color: Colors.greenAccent),
-                                  ),
+                            Text(
+                              insertCommas(
+                                  widget.map['new_recovered'].toString()),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25,
+                                  color: Colors.greenAccent),
+                            ),
                             SizedBox(
-                              height: 10,
+                              height: 5,
                             ),
                             Text(
                               'New',
@@ -162,24 +148,17 @@ class _GlobalScreenState extends State<GlobalScreen> {
                             ),
                           ],
                         ),
-                        SizedBox(
-                          width: 15,
-                        ),
                         Column(
                           children: <Widget>[
-                            widget.loading
-                                ? Padding(
-                                    padding: EdgeInsets.all(5),
-                                    child: CircularProgressIndicator())
-                                : Text(
-                                    widget.map['deaths'].toString(),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 25,
-                                        color: Colors.redAccent),
-                                  ),
+                            Text(
+                              insertCommas(widget.map['deaths'].toString()),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25,
+                                  color: Colors.redAccent),
+                            ),
                             SizedBox(
-                              height: 10,
+                              height: 5,
                             ),
                             Text(
                               'Deaths',
@@ -189,21 +168,17 @@ class _GlobalScreenState extends State<GlobalScreen> {
                                   color: Colors.white),
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 15,
                             ),
-                            widget.loading
-                                ? Padding(
-                                    padding: EdgeInsets.all(5),
-                                    child: CircularProgressIndicator())
-                                : Text(
-                                    widget.map['new_deaths'].toString(),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 25,
-                                        color: Colors.redAccent),
-                                  ),
+                            Text(
+                              insertCommas(widget.map['new_deaths'].toString()),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25,
+                                  color: Colors.redAccent),
+                            ),
                             SizedBox(
-                              height: 10,
+                              height: 5,
                             ),
                             Text(
                               'New',
@@ -219,7 +194,7 @@ class _GlobalScreenState extends State<GlobalScreen> {
                   ),
                 ],
               ),
-      ),
-    );
+            ),
+          );
   }
 }

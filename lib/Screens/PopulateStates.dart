@@ -3,10 +3,23 @@ import 'dart:ui';
 import 'package:covid19tracker/Screens/PopulateDistricts.dart';
 import 'package:flutter/material.dart';
 
-class PopulateStates extends StatelessWidget {
+class PopulateStates extends StatefulWidget {
+  const PopulateStates({Key key, this.statesList}) : super(key: key);
+
   final List<dynamic> statesList;
 
-  const PopulateStates({Key key, this.statesList}) : super(key: key);
+  @override
+  _PopulateStatesState createState() => _PopulateStatesState();
+}
+
+class _PopulateStatesState extends State<PopulateStates> {
+  RegExp reg = new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
+
+  Function mathFunc = (Match match) => '${match[1]},';
+
+  String insertCommas(String number) {
+    return number.replaceAllMapped(reg, mathFunc).toString();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,19 +61,19 @@ class PopulateStates extends StatelessWidget {
             right: 0,
             left: 0,
             child: ListView.builder(
-                itemCount: statesList.length,
+                itemCount: widget.statesList.length,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.all(5),
                     child: GestureDetector(
                       onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => PopulateDistricts(
-                                  districtList: statesList[index]
+                                  districtList: widget.statesList[index]
                                       ['districtData']))),
                       child: Container(
-                          padding: EdgeInsets.all(10),
+                          padding: EdgeInsets.symmetric(vertical: 10),
                           decoration: BoxDecoration(
                               color: Color.fromRGBO(3000, 3000, 3000, 0.5),
                               borderRadius: BorderRadius.circular(30)),
@@ -70,7 +83,7 @@ class PopulateStates extends StatelessWidget {
                                 padding: EdgeInsets.only(bottom: 10, top: 5),
                                 alignment: Alignment.center,
                                 child: Text(
-                                  statesList[index]['state'],
+                                  widget.statesList[index]['state'],
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 27,
@@ -84,11 +97,12 @@ class PopulateStates extends StatelessWidget {
                                   Column(
                                     children: <Widget>[
                                       Text(
-                                          statesList[index]['confirmed']
-                                              .toString(),
+                                          insertCommas(widget.statesList[index]
+                                                  ['confirmed']
+                                              .toString()),
                                           style: TextStyle(
-                                              color: Colors.orangeAccent,
-                                              fontSize: 30,
+                                              color: Colors.deepOrangeAccent,
+                                              fontSize: 27,
                                               fontWeight: FontWeight.bold)),
                                       Text('Confirmed',
                                           style: TextStyle(
@@ -100,11 +114,12 @@ class PopulateStates extends StatelessWidget {
                                   Column(
                                     children: <Widget>[
                                       Text(
-                                          statesList[index]['active']
-                                              .toString(),
+                                          insertCommas(widget.statesList[index]
+                                                  ['active']
+                                              .toString()),
                                           style: TextStyle(
-                                              color: Colors.greenAccent,
-                                              fontSize: 30,
+                                              color: Colors.orangeAccent,
+                                              fontSize: 27,
                                               fontWeight: FontWeight.bold)),
                                       Text('Active',
                                           style: TextStyle(
@@ -116,11 +131,12 @@ class PopulateStates extends StatelessWidget {
                                   Column(
                                     children: <Widget>[
                                       Text(
-                                          statesList[index]['recovered']
-                                              .toString(),
+                                          insertCommas(widget.statesList[index]
+                                                  ['recovered']
+                                              .toString()),
                                           style: TextStyle(
-                                              color: Colors.redAccent,
-                                              fontSize: 30,
+                                              color: Colors.greenAccent,
+                                              fontSize: 27,
                                               fontWeight: FontWeight.bold)),
                                       Text('Recovered',
                                           style: TextStyle(
@@ -132,11 +148,12 @@ class PopulateStates extends StatelessWidget {
                                   Column(
                                     children: <Widget>[
                                       Text(
-                                          statesList[index]['deaths']
-                                              .toString(),
+                                          insertCommas(widget.statesList[index]
+                                                  ['deaths']
+                                              .toString()),
                                           style: TextStyle(
                                               color: Colors.red,
-                                              fontSize: 30,
+                                              fontSize: 27,
                                               fontWeight: FontWeight.bold)),
                                       Text('Deaths',
                                           style: TextStyle(

@@ -10,6 +10,18 @@ class PopulateCountries extends StatefulWidget {
 }
 
 class _PopulateCountriesState extends State<PopulateCountries> {
+  RegExp reg = new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
+  Function mathFunc = (Match match) => '${match[1]},';
+
+  String insertCommas(String number) {
+    return number.replaceAllMapped(reg, mathFunc).toString();
+  }
+
+  String toInt(dynamic number) {
+    print(number);
+    return number.toStringAsFixed(3);
+  }
+
   Map<String, dynamic> countriesMap;
   List<dynamic> countriesList;
   bool loading = true;
@@ -83,7 +95,7 @@ class _PopulateCountriesState extends State<PopulateCountries> {
                         return Padding(
                           padding: EdgeInsets.all(10),
                           child: Container(
-                              padding: EdgeInsets.all(10),
+                              padding: EdgeInsets.symmetric(vertical: 10),
                               decoration: BoxDecoration(
                                   color: Color.fromRGBO(3000, 3000, 3000, 0.5),
                                   borderRadius: BorderRadius.circular(30)),
@@ -206,7 +218,7 @@ class _PopulateCountriesState extends State<PopulateCountries> {
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             SizedBox(
-                                              height: 10,
+                                              height: 5,
                                             ),
                                             Text(
                                               'Confirmed',
@@ -231,7 +243,7 @@ class _PopulateCountriesState extends State<PopulateCountries> {
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             SizedBox(
-                                              height: 10,
+                                              height: 5,
                                             ),
                                             Text(
                                               'Deaths',
@@ -257,11 +269,16 @@ class _PopulateCountriesState extends State<PopulateCountries> {
                                               MainAxisAlignment.spaceEvenly,
                                           children: <Widget>[
                                             Text(
-                                              countriesList[index]
+                                              countriesList[index][
+                                                                  'latest_data']
+                                                              ['calculated']
+                                                          ['recovery_rate'] !=
+                                                      null
+                                                  ? toInt(countriesList[index]
                                                               ['latest_data']
                                                           ['calculated']
-                                                      ['recovery_rate']
-                                                  .toString(),
+                                                      ['recovery_rate'])
+                                                  : 'null',
                                               style: TextStyle(
                                                   color: Colors.orangeAccent,
                                                   fontSize: 18,
@@ -284,11 +301,16 @@ class _PopulateCountriesState extends State<PopulateCountries> {
                                               MainAxisAlignment.spaceEvenly,
                                           children: <Widget>[
                                             Text(
-                                              countriesList[index]
+                                              countriesList[index][
+                                                                  'latest_data']
+                                                              ['calculated']
+                                                          ['recovery_rate'] !=
+                                                      null
+                                                  ? toInt(countriesList[index]
                                                               ['latest_data']
                                                           ['calculated']
-                                                      ['death_rate']
-                                                  .toString(),
+                                                      ['death_rate'])
+                                                  : 'null',
                                               style: TextStyle(
                                                   color: Colors.redAccent,
                                                   fontSize: 18,

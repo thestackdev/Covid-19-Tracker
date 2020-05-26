@@ -2,18 +2,24 @@ import 'package:flutter/material.dart';
 
 class CountryScreen extends StatefulWidget {
   final Map map;
-  final String name;
 
-  const CountryScreen({Key key, this.map, this.name}) : super(key: key);
+  const CountryScreen({Key key, this.map}) : super(key: key);
 
   @override
   _CountryScreenState createState() => _CountryScreenState();
 }
 
 class _CountryScreenState extends State<CountryScreen> {
+  RegExp reg = new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
+  Function mathFunc = (Match match) => '${match[1]},';
+
+  String insertCommas(String number) {
+    return number.replaceAllMapped(reg, mathFunc).toString();
+  }
+
   String toInt(double number) {
     print(number);
-    return number.ceilToDouble().toString();
+    return number.toStringAsFixed(3);
   }
 
   @override
@@ -30,10 +36,10 @@ class _CountryScreenState extends State<CountryScreen> {
             Padding(
               padding: EdgeInsets.only(bottom: 10),
               child: Text(
-                '${widget.name}',
+                'INDIA',
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 23,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold),
               ),
             ),
@@ -44,7 +50,7 @@ class _CountryScreenState extends State<CountryScreen> {
                     color: Colors.white70,
                     borderRadius: BorderRadius.circular(30)),
                 child: Text(
-                  'Total ${widget.map['timeline'][0]['confirmed'].toString()}',
+                  'Total ${insertCommas(widget.map['timeline'][0]['confirmed'].toString())}',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 27,
@@ -61,14 +67,14 @@ class _CountryScreenState extends State<CountryScreen> {
                     child: Column(
                       children: <Widget>[
                         Text(
-                          widget.map['timeline'][0]['active'].toString(),
+                          insertCommas(widget.map['timeline'][0]['active'].toString()),
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 27,
                               color: Colors.orange),
                         ),
                         SizedBox(
-                          height: 10,
+                          height: 5,
                         ),
                         Text(
                           'Active',
@@ -78,17 +84,17 @@ class _CountryScreenState extends State<CountryScreen> {
                               color: Colors.white),
                         ),
                         SizedBox(
-                          height: 10,
+                          height: 15,
                         ),
                         Text(
-                          widget.map['timeline'][0]['new_confirmed'].toString(),
+                          insertCommas(widget.map['timeline'][0]['new_confirmed'].toString()),
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 25,
                               color: Colors.orange),
                         ),
                         SizedBox(
-                          height: 10,
+                          height: 5,
                         ),
                         Text(
                           'New',
@@ -100,21 +106,18 @@ class _CountryScreenState extends State<CountryScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    width: 15,
-                  ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       Text(
-                        widget.map['timeline'][0]['recovered'].toString(),
+                        insertCommas(widget.map['timeline'][0]['recovered'].toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 25,
                             color: Colors.greenAccent),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 5,
                       ),
                       Text(
                         'Recovered',
@@ -124,17 +127,17 @@ class _CountryScreenState extends State<CountryScreen> {
                             color: Colors.white),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 15,
                       ),
                       Text(
-                        widget.map['timeline'][0]['new_recovered'].toString(),
+                        insertCommas(widget.map['timeline'][0]['new_recovered'].toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 25,
                             color: Colors.greenAccent),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 5,
                       ),
                       Text(
                         'New',
@@ -145,21 +148,18 @@ class _CountryScreenState extends State<CountryScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(
-                    width: 15,
-                  ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       Text(
-                        widget.map['timeline'][0]['deaths'].toString(),
+                        insertCommas(widget.map['timeline'][0]['deaths'].toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 25,
                             color: Colors.redAccent),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 5,
                       ),
                       Text(
                         'Deaths',
@@ -169,17 +169,17 @@ class _CountryScreenState extends State<CountryScreen> {
                             color: Colors.white),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 15,
                       ),
                       Text(
-                        widget.map['timeline'][0]['new_deaths'].toString(),
+                        insertCommas(widget.map['timeline'][0]['new_deaths'].toString()),
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 25,
                             color: Colors.redAccent),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 5,
                       ),
                       Text(
                         'New',
@@ -194,7 +194,7 @@ class _CountryScreenState extends State<CountryScreen> {
               ),
             ),
             SizedBox(
-              height: 10,
+              height: 15,
             ),
             Container(
                 alignment: Alignment.topLeft,
@@ -212,7 +212,7 @@ class _CountryScreenState extends State<CountryScreen> {
                               fontWeight: FontWeight.bold),
                         ),
                         SizedBox(
-                          height: 10,
+                          height: 5,
                         ),
                         Text(
                           'Recovery Rate',
@@ -234,7 +234,7 @@ class _CountryScreenState extends State<CountryScreen> {
                               fontWeight: FontWeight.bold),
                         ),
                         SizedBox(
-                          height: 10,
+                          height: 5,
                         ),
                         Text(
                           'Death Rate',
