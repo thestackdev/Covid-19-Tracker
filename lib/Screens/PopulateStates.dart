@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:covid19tracker/Screens/PopulateDistricts.dart';
+import 'package:covid19tracker/widgets/countryWidget.dart';
 import 'package:flutter/material.dart';
 
 class PopulateStates extends StatefulWidget {
@@ -94,74 +95,22 @@ class _PopulateStatesState extends State<PopulateStates> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
-                                  Column(
-                                    children: <Widget>[
-                                      Text(
-                                          insertCommas(widget.statesList[index]
-                                                  ['confirmed']
-                                              .toString()),
-                                          style: TextStyle(
-                                              color: Colors.deepOrangeAccent,
-                                              fontSize: 27,
-                                              fontWeight: FontWeight.bold)),
-                                      Text('Confirmed',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold)),
-                                    ],
-                                  ),
-                                  Column(
-                                    children: <Widget>[
-                                      Text(
-                                          insertCommas(widget.statesList[index]
-                                                  ['active']
-                                              .toString()),
-                                          style: TextStyle(
-                                              color: Colors.orangeAccent,
-                                              fontSize: 27,
-                                              fontWeight: FontWeight.bold)),
-                                      Text('Active',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold)),
-                                    ],
-                                  ),
-                                  Column(
-                                    children: <Widget>[
-                                      Text(
-                                          insertCommas(widget.statesList[index]
-                                                  ['recovered']
-                                              .toString()),
-                                          style: TextStyle(
-                                              color: Colors.greenAccent,
-                                              fontSize: 27,
-                                              fontWeight: FontWeight.bold)),
-                                      Text('Recovered',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold)),
-                                    ],
-                                  ),
-                                  Column(
-                                    children: <Widget>[
-                                      Text(
-                                          insertCommas(widget.statesList[index]
-                                                  ['deaths']
-                                              .toString()),
-                                          style: TextStyle(
-                                              color: Colors.red,
-                                              fontSize: 27,
-                                              fontWeight: FontWeight.bold)),
-                                      Text('Deaths',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold)),
-                                    ],
-                                  ),
+                                  countryWidget(
+                                      widget.statesList[index]['confirmed'],
+                                      'Confirmed',
+                                      Colors.deepOrangeAccent),
+                                  countryWidget(
+                                      widget.statesList[index]['active'],
+                                      'Active',
+                                      Colors.lime),
+                                  countryWidget(
+                                      widget.statesList[index]['recovered'],
+                                      'Recovered',
+                                      Colors.greenAccent),
+                                  countryWidget(
+                                      widget.statesList[index]['deaths'],
+                                      'Deaths',
+                                      Colors.red),
                                 ],
                               ),
                             ],

@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'dart:ui';
 
 import 'package:covid19tracker/Screens/CountryScreen.dart';
 import 'package:covid19tracker/Screens/GlobalScreen.dart';
 import 'package:covid19tracker/Screens/PopulateCountries.dart';
 import 'package:covid19tracker/Screens/PopulateStates.dart';
+import 'package:covid19tracker/widgets/background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -13,11 +13,8 @@ import 'Screens/StateScreen.dart';
 
 void main() {
   runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
     home: HomePage(),
-    theme: ThemeData(
-      primaryColor: Colors.lightBlueAccent,
-    ),
+    debugShowCheckedModeBanner: false,
   ));
 }
 
@@ -27,69 +24,42 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool globalLoading = true;
-  bool countryLoading = true;
-  bool stateLoading = true;
+  bool loading = true;
 
   Map<String, dynamic> globalMap;
   Map<String, dynamic> countryMap;
   List<dynamic> stateList;
-  Map<String, dynamic> stateMap;
 
-  int indexOfTg;
-
-  fetchAPIdata() async {
-    while (true) {
-      final response = await http.get('https://corona-api.com/timeline');
-      if (response.statusCode == 200) {
-        globalMap = json.decode(response.body);
-        globalMap = globalMap['data'][0];
-
-        setState(() {
-          globalLoading = false;
-        });
-        break;
-      }
-    }
-    while (true) {
-      final response = await http.get('http://corona-api.com/countries/in');
-
-      if (response.statusCode == 200) {
-        countryMap = json.decode(response.body);
-        countryMap = countryMap['data'];
-
-        setState(() {
-          countryLoading = false;
-        });
-        break;
-      }
-    }
-
-    while (true) {
-      final response =
+  Future<void> fetchAPIData() async {
+    while (loading) {
+      final globalResponse = await http.get('https://corona-api.com/timeline');
+      final countryResponse =
+          await http.get('http://corona-api.com/countries/in');
+      final stateResponse =
           await http.get('https://api.covidindiatracker.com/state_data.json');
 
-      if (response.statusCode == 200) {
-        stateList = json.decode(response.body);
+      if (globalResponse.statusCode == 200 &&
+          countryResponse.statusCode == 200 &&
+          stateResponse.statusCode == 200) {
+        globalMap = json.decode(globalResponse.body);
+        globalMap = globalMap['data'][0];
 
-        indexOfTg = stateList.indexWhere((element) {
-          if (element['id'] == 'IN-TG') {
-            return true;
-          }
-          return false;
-        });
+        countryMap = json.decode(countryResponse.body);
+        countryMap = countryMap['data'];
+
+        stateList = json.decode(stateResponse.body);
 
         setState(() {
-          stateLoading = false;
+          loading = false;
         });
-        break;
+        return true;
       }
     }
   }
 
   @override
   void initState() {
-    fetchAPIdata();
+    fetchAPIData();
     super.initState();
   }
 
@@ -99,71 +69,48 @@ class _HomePageState extends State<HomePage> {
         value: SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
         ),
-        child: Scaffold(
-            backgroundColor: Colors.amberAccent,
-            body: Stack(
-              children: <Widget>[
-                Container(
-                  height: double.infinity,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                    image: AssetImage('assets/corons.jpg'),
-                    fit: BoxFit.cover,
-                  )),
-                  child: BackdropFilter(
-                    filter: (ImageFilter.blur(sigmaX: 3, sigmaY: 3)),
-                    child: new Container(
-                      decoration: new BoxDecoration(
-                          color: Colors.black.withOpacity(0.5)),
-                    ),
-                  ),
-                ),
-                SingleChildScrollView(
-                    child: Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Column(
-                      children: <Widget>[
-                        GestureDetector(
-                          onTap: () => Navigator.push(
+        child: loading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : Scaffold(
+                body: Stack(
+                children: <Widget>[
+                  backGround(),
+                  SingleChildScrollView(
+                      child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Column(
+                        children: <Widget>[
+                          GestureDetector(
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PopulateCountries())),
+                            child: GlobalScreen(
+                              map: globalMap,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => PopulateCountries())),
-                          child: GlobalScreen(
-                            loading: globalLoading,
-                            map: globalMap,
+                                  builder: (context) =>
+                                      PopulateStates(statesList: stateList)),
+                            ),
+                            child: CountryScreen(
+                              map: countryMap,
+                            ),
                           ),
-                        ),
-                        countryLoading
-                            ? Padding(
-                                padding: EdgeInsets.all(100),
-                                child: Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                              )
-                            : GestureDetector(
-                                onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => PopulateStates(
-                                          statesList: stateList)),
-                                ),
-                                child: CountryScreen(
-                                  map: countryMap,
-                                ),
-                              ),
-                        stateLoading
-                            ? CircularProgressIndicator()
-                            : StateScreen(
-                                map: stateList[indexOfTg]),
-                      ],
-                    ),
-                  ],
-                )),
-              ],
-            )));
+                          StateScreen(map: stateList[12]),
+                        ],
+                      ),
+                    ],
+                  )),
+                ],
+              )));
   }
 }

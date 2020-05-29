@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:covid19tracker/widgets/background.dart';
+import 'package:covid19tracker/widgets/countryWidget.dart';
 import 'package:flutter/material.dart';
 
 class PopulateDistricts extends StatelessWidget {
@@ -11,22 +13,7 @@ class PopulateDistricts extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          Container(
-            height: double.infinity,
-            width: double.infinity,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-              image: AssetImage('assets/corons.jpg'),
-              fit: BoxFit.cover,
-            )),
-            child: BackdropFilter(
-              filter: (ImageFilter.blur(sigmaX: 3, sigmaY: 3)),
-              child: new Container(
-                decoration:
-                    new BoxDecoration(color: Colors.black.withOpacity(0.5)),
-              ),
-            ),
-          ),
+          backGround(),
           Padding(
             padding: EdgeInsets.only(top: 30, bottom: 20),
             child: Container(
@@ -71,54 +58,12 @@ class PopulateDistricts extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
-                                Column(
-                                  children: <Widget>[
-                                    Text(
-                                        districtList[index]['confirmed']
-                                            .toString(),
-                                        style: TextStyle(
-                                            color: Colors.orangeAccent,
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold)),
-                                    Text('Confirmed',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold)),
-                                  ],
-                                ),
-                                Column(
-                                  children: <Widget>[
-                                    Text(
-                                        districtList[index]['recovered']
-                                            .toString(),
-                                        style: TextStyle(
-                                            color: Colors.greenAccent,
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold)),
-                                    Text('Recovered',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold)),
-                                  ],
-                                ),
-                                Column(
-                                  children: <Widget>[
-                                    Text(
-                                        districtList[index]['deaths']
-                                            .toString(),
-                                        style: TextStyle(
-                                            color: Colors.redAccent,
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold)),
-                                    Text('Deaths',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold)),
-                                  ],
-                                ),
+                                countryWidget(districtList[index]['confirmed'],
+                                    'Confirmed', Colors.orangeAccent),
+                                countryWidget(districtList[index]['recovered'],
+                                    'Recovered', Colors.greenAccent),
+                                countryWidget(districtList[index]['deaths'],
+                                    'Deaths', Colors.redAccent),
                               ],
                             ),
                             Padding(

@@ -1,3 +1,4 @@
+import 'package:covid19tracker/widgets/countryWidget.dart';
 import 'package:flutter/material.dart';
 
 import 'PopulateDistricts.dart';
@@ -50,70 +51,14 @@ class _StateScreenState extends State<StateScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Text(
-                            insertCommas(widget.map['confirmed']
-                                .toString()),
-                            style: TextStyle(
-                                color: Colors.deepOrangeAccent,
-                                fontSize: 27,
-                                fontWeight: FontWeight.bold)),
-                        Text('Confirmed',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold)),
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Text(
-                            insertCommas(
-                                widget.map['active'].toString()),
-                            style: TextStyle(
-                                color: Colors.orangeAccent,
-                                fontSize: 27,
-                                fontWeight: FontWeight.bold)),
-                        Text('Active',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold)),
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Text(
-                            insertCommas(widget.map['recovered']
-                                .toString()),
-                            style: TextStyle(
-                                color: Colors.greenAccent,
-                                fontSize: 27,
-                                fontWeight: FontWeight.bold)),
-                        Text('Recovered',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold)),
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Text(
-                            insertCommas(
-                                widget.map['deaths'].toString()),
-                            style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 27,
-                                fontWeight: FontWeight.bold)),
-                        Text('Deaths',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold)),
-                      ],
-                    ),
+                    countryWidget(widget.map['confirmed'], 'Confirmed',
+                        Colors.deepOrangeAccent),
+                    countryWidget(
+                        widget.map['active'], 'Active', Colors.orangeAccent),
+                        countryWidget(
+                        widget.map['recovered'], 'Recovered', Colors.greenAccent),
+                    countryWidget(
+                        widget.map['deaths'], 'Deaths', Colors.red),
                   ],
                 ),
               ],

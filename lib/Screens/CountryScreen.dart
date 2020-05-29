@@ -1,3 +1,4 @@
+import 'package:covid19tracker/widgets/textBox.dart';
 import 'package:flutter/material.dart';
 
 class CountryScreen extends StatefulWidget {
@@ -18,7 +19,6 @@ class _CountryScreenState extends State<CountryScreen> {
   }
 
   String toInt(double number) {
-    print(number);
     return number.toStringAsFixed(3);
   }
 
@@ -63,133 +63,21 @@ class _CountryScreenState extends State<CountryScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Container(
-                    child: Column(
-                      children: <Widget>[
-                        Text(
-                          insertCommas(widget.map['timeline'][0]['active'].toString()),
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 27,
-                              color: Colors.orange),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          'Active',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                              color: Colors.white),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          insertCommas(widget.map['timeline'][0]['new_confirmed'].toString()),
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25,
-                              color: Colors.orange),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          'New',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                              color: Colors.white),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Text(
-                        insertCommas(widget.map['timeline'][0]['recovered'].toString()),
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25,
-                            color: Colors.greenAccent),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        'Recovered',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            color: Colors.white),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Text(
-                        insertCommas(widget.map['timeline'][0]['new_recovered'].toString()),
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25,
-                            color: Colors.greenAccent),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        'New',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            color: Colors.white),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Text(
-                        insertCommas(widget.map['timeline'][0]['deaths'].toString()),
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25,
-                            color: Colors.redAccent),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        'Deaths',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            color: Colors.white),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Text(
-                        insertCommas(widget.map['timeline'][0]['new_deaths'].toString()),
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25,
-                            color: Colors.redAccent),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        'New',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            color: Colors.white),
-                      ),
-                    ],
-                  ),
+                  textBox(
+                      widget.map['timeline'][0]['active'],
+                      widget.map['timeline'][0]['new_confirmed'],
+                      'Active',
+                      Colors.orange),
+                  textBox(
+                      widget.map['timeline'][0]['recovered'],
+                      widget.map['timeline'][0]['new_recovered'],
+                      'Recovered',
+                      Colors.greenAccent),
+                  textBox(
+                      widget.map['timeline'][0]['deaths'],
+                      widget.map['timeline'][0]['new_deaths'],
+                      'Deaths',
+                      Colors.redAccent),
                 ],
               ),
             ),

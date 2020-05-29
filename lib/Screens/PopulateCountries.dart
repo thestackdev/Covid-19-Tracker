@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:ui';
 
+import 'package:covid19tracker/widgets/background.dart';
+import 'package:covid19tracker/widgets/countryWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,16 +12,12 @@ class PopulateCountries extends StatefulWidget {
 }
 
 class _PopulateCountriesState extends State<PopulateCountries> {
-  RegExp reg = new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
-  Function mathFunc = (Match match) => '${match[1]},';
-
-  String insertCommas(String number) {
-    return number.replaceAllMapped(reg, mathFunc).toString();
-  }
-
   String toInt(dynamic number) {
-    print(number);
-    return number.toStringAsFixed(3);
+    if (number != null) {
+      return number.toStringAsFixed(3);
+    } else {
+      return 'No Analysis';
+    }
   }
 
   Map<String, dynamic> countriesMap;
@@ -53,22 +51,7 @@ class _PopulateCountriesState extends State<PopulateCountries> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          Container(
-            height: double.infinity,
-            width: double.infinity,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-              image: AssetImage('assets/corons.jpg'),
-              fit: BoxFit.cover,
-            )),
-            child: BackdropFilter(
-              filter: (ImageFilter.blur(sigmaX: 3, sigmaY: 3)),
-              child: new Container(
-                decoration:
-                    new BoxDecoration(color: Colors.black.withOpacity(0.5)),
-              ),
-            ),
-          ),
+          backGround(),
           Padding(
             padding: EdgeInsets.only(top: 30, bottom: 20),
             child: Container(
@@ -117,77 +100,26 @@ class _PopulateCountriesState extends State<PopulateCountries> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: <Widget>[
-                                      Column(
-                                        children: <Widget>[
-                                          Text(
-                                              countriesList[index]
-                                                          ['latest_data']
-                                                      ['confirmed']
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  color: Colors.orangeAccent,
-                                                  fontSize: 30,
-                                                  fontWeight: FontWeight.bold)),
-                                          Text('Confirmed',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold)),
-                                        ],
-                                      ),
-                                      Column(
-                                        children: <Widget>[
-                                          Text(
-                                              countriesList[index]
-                                                          ['latest_data']
-                                                      ['recovered']
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  color: Colors.greenAccent,
-                                                  fontSize: 30,
-                                                  fontWeight: FontWeight.bold)),
-                                          Text('Recovered',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold)),
-                                        ],
-                                      ),
-                                      Column(
-                                        children: <Widget>[
-                                          Text(
-                                              countriesList[index]
-                                                          ['latest_data']
-                                                      ['critical']
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  color: Colors.redAccent,
-                                                  fontSize: 30,
-                                                  fontWeight: FontWeight.bold)),
-                                          Text('Critical',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold)),
-                                        ],
-                                      ),
-                                      Column(
-                                        children: <Widget>[
-                                          Text(
-                                              countriesList[index]
-                                                      ['latest_data']['deaths']
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  color: Colors.red,
-                                                  fontSize: 30,
-                                                  fontWeight: FontWeight.bold)),
-                                          Text('Deaths',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold)),
-                                        ],
-                                      ),
+                                      countryWidget(
+                                          countriesList[index]['latest_data']
+                                              ['confirmed'],
+                                          'Confirmed',
+                                          Colors.orangeAccent),
+                                      countryWidget(
+                                          countriesList[index]['latest_data']
+                                              ['recovered'],
+                                          'Recovered',
+                                          Colors.greenAccent),
+                                      countryWidget(
+                                          countriesList[index]['latest_data']
+                                              ['critical'],
+                                          'Criticl',
+                                          Colors.redAccent),
+                                      countryWidget(
+                                          countriesList[index]['latest_data']
+                                              ['deaths'],
+                                          'Deaths',
+                                          Colors.red),
                                     ],
                                   ),
                                   Container(
@@ -204,56 +136,16 @@ class _PopulateCountriesState extends State<PopulateCountries> {
                                               fontSize: 30,
                                               fontWeight: FontWeight.bold),
                                         ),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: <Widget>[
-                                            Text(
-                                              countriesList[index]['today']
-                                                      ['confirmed']
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  color: Colors.orangeAccent,
-                                                  fontSize: 30,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            SizedBox(
-                                              height: 5,
-                                            ),
-                                            Text(
-                                              'Confirmed',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ],
-                                        ),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: <Widget>[
-                                            Text(
-                                              countriesList[index]['today']
-                                                      ['deaths']
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  color: Colors.redAccent,
-                                                  fontSize: 30,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            SizedBox(
-                                              height: 5,
-                                            ),
-                                            Text(
-                                              'Deaths',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ],
-                                        ),
+                                        countryWidget(
+                                            countriesList[index]['today']
+                                                ['confirmed'],
+                                            'Confirmed',
+                                            Colors.red),
+                                        countryWidget(
+                                            countriesList[index]['today']
+                                                ['deaths'],
+                                            'Confirmed',
+                                            Colors.red),
                                       ],
                                     ),
                                   ),
@@ -264,70 +156,16 @@ class _PopulateCountriesState extends State<PopulateCountries> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: <Widget>[
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: <Widget>[
-                                            Text(
-                                              countriesList[index][
-                                                                  'latest_data']
-                                                              ['calculated']
-                                                          ['recovery_rate'] !=
-                                                      null
-                                                  ? toInt(countriesList[index]
-                                                              ['latest_data']
-                                                          ['calculated']
-                                                      ['recovery_rate'])
-                                                  : 'null',
-                                              style: TextStyle(
-                                                  color: Colors.orangeAccent,
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Text(
-                                              'Recovery Rate',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ],
-                                        ),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: <Widget>[
-                                            Text(
-                                              countriesList[index][
-                                                                  'latest_data']
-                                                              ['calculated']
-                                                          ['recovery_rate'] !=
-                                                      null
-                                                  ? toInt(countriesList[index]
-                                                              ['latest_data']
-                                                          ['calculated']
-                                                      ['death_rate'])
-                                                  : 'null',
-                                              style: TextStyle(
-                                                  color: Colors.redAccent,
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Text(
-                                              'Death Rate',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ],
-                                        ),
+                                        rateAnalysis(
+                                            countriesList[index]['latest_data']
+                                                ['calculated']['recovery_rate'],
+                                            'Recovery Rate',
+                                            Colors.limeAccent),
+                                        rateAnalysis(
+                                            countriesList[index]['latest_data']
+                                                ['calculated']['death_rate'],
+                                            'Death Rate',
+                                            Colors.limeAccent),
                                       ],
                                     ),
                                   ),
@@ -338,6 +176,27 @@ class _PopulateCountriesState extends State<PopulateCountries> {
                 )
         ],
       ),
+    );
+  }
+
+  Widget rateAnalysis(dynamic rate, String dataType, Color color) {
+    return RichText(
+      textAlign: TextAlign.center,
+      text: TextSpan(children: <InlineSpan>[
+        TextSpan(
+          text: '${toInt(rate)}\n',
+          style: TextStyle(
+              color: color, fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        TextSpan(
+          text: '$dataType',
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              height: 1.2),
+        ),
+      ]),
     );
   }
 }
