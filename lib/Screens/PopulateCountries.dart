@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:covid19tracker/widgets/background.dart';
 import 'package:covid19tracker/widgets/countryWidget.dart';
+import 'package:covid19tracker/widgets/insertCommas.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,14 +13,6 @@ class PopulateCountries extends StatefulWidget {
 }
 
 class _PopulateCountriesState extends State<PopulateCountries> {
-  String toInt(dynamic number) {
-    if (number != null) {
-      return number.toStringAsFixed(3);
-    } else {
-      return 'No Analysis';
-    }
-  }
-
   Map<String, dynamic> countriesMap;
   List<dynamic> countriesList;
   bool loading = true;
@@ -80,7 +73,7 @@ class _PopulateCountriesState extends State<PopulateCountries> {
                           child: Container(
                               padding: EdgeInsets.symmetric(vertical: 10),
                               decoration: BoxDecoration(
-                                  color: Color.fromRGBO(3000, 3000, 3000, 0.5),
+                                  color: Colors.black,
                                   borderRadius: BorderRadius.circular(30)),
                               child: Column(
                                 children: <Widget>[
@@ -88,12 +81,35 @@ class _PopulateCountriesState extends State<PopulateCountries> {
                                     padding:
                                         EdgeInsets.only(bottom: 10, top: 5),
                                     alignment: Alignment.center,
-                                    child: Text(
-                                      countriesList[index]['name'],
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 27,
-                                          fontWeight: FontWeight.bold),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: <Widget>[
+                                        Text(
+                                          countriesList[index]['name'],
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 27,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        RichText(
+                                            text: TextSpan(children: <TextSpan>[
+                                          TextSpan(
+                                              text: 'Total  ',
+                                              style: TextStyle(
+                                                  color: Colors.limeAccent,
+                                                  fontSize: 21,
+                                                  fontWeight: FontWeight.bold)),
+                                          TextSpan(
+                                            text:
+                                                '${InsertCommas().insertCommas(countriesList[index]['latest_data']['confirmed'].toString())}',
+                                            style: TextStyle(
+                                                color: Colors.deepOrangeAccent,
+                                                fontSize: 25,
+                                                fontWeight: FontWeight.bold),
+                                          )
+                                        ])),
+                                      ],
                                     ),
                                   ),
                                   Row(
@@ -102,18 +118,13 @@ class _PopulateCountriesState extends State<PopulateCountries> {
                                     children: <Widget>[
                                       countryWidget(
                                           countriesList[index]['latest_data']
-                                              ['confirmed'],
-                                          'Confirmed',
-                                          Colors.orangeAccent),
-                                      countryWidget(
-                                          countriesList[index]['latest_data']
                                               ['recovered'],
                                           'Recovered',
                                           Colors.greenAccent),
                                       countryWidget(
                                           countriesList[index]['latest_data']
                                               ['critical'],
-                                          'Criticl',
+                                          'Critical',
                                           Colors.redAccent),
                                       countryWidget(
                                           countriesList[index]['latest_data']
@@ -144,7 +155,7 @@ class _PopulateCountriesState extends State<PopulateCountries> {
                                         countryWidget(
                                             countriesList[index]['today']
                                                 ['deaths'],
-                                            'Confirmed',
+                                            'Deaths',
                                             Colors.red),
                                       ],
                                     ),
@@ -184,7 +195,9 @@ class _PopulateCountriesState extends State<PopulateCountries> {
       textAlign: TextAlign.center,
       text: TextSpan(children: <InlineSpan>[
         TextSpan(
-          text: '${toInt(rate)}\n',
+          text: (rate != null)
+              ? '${rate.toStringAsFixed(2).toString()}\n'
+              : 'No Records\n',
           style: TextStyle(
               color: color, fontSize: 18, fontWeight: FontWeight.bold),
         ),

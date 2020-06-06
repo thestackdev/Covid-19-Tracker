@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:covid19tracker/Screens/PopulateDistricts.dart';
+import 'package:covid19tracker/widgets/background.dart';
 import 'package:covid19tracker/widgets/countryWidget.dart';
 import 'package:flutter/material.dart';
 
@@ -27,22 +28,7 @@ class _PopulateStatesState extends State<PopulateStates> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          Container(
-            height: double.infinity,
-            width: double.infinity,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-              image: AssetImage('assets/corons.jpg'),
-              fit: BoxFit.cover,
-            )),
-            child: BackdropFilter(
-              filter: (ImageFilter.blur(sigmaX: 3, sigmaY: 3)),
-              child: new Container(
-                decoration:
-                    new BoxDecoration(color: Colors.black.withOpacity(0.5)),
-              ),
-            ),
-          ),
+          backGround(),
           Padding(
             padding: EdgeInsets.only(top: 30, bottom: 20),
             child: Container(
@@ -76,7 +62,7 @@ class _PopulateStatesState extends State<PopulateStates> {
                       child: Container(
                           padding: EdgeInsets.symmetric(vertical: 10),
                           decoration: BoxDecoration(
-                              color: Color.fromRGBO(3000, 3000, 3000, 0.5),
+                              color: Colors.black,
                               borderRadius: BorderRadius.circular(30)),
                           child: Column(
                             children: <Widget>[

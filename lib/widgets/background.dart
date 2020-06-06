@@ -14,7 +14,7 @@ Widget backGround() {
     child: BackdropFilter(
       filter: (ImageFilter.blur(sigmaX: 3, sigmaY: 3)),
       child: new Container(
-        decoration: new BoxDecoration(color: Colors.black.withOpacity(0.5)),
+        decoration: new BoxDecoration(color: Colors.black.withOpacity(0.81)),
       ),
     ),
   );

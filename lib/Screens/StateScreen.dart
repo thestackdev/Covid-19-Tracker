@@ -1,4 +1,5 @@
 import 'package:covid19tracker/widgets/countryWidget.dart';
+import 'package:covid19tracker/widgets/insertCommas.dart';
 import 'package:flutter/material.dart';
 
 import 'PopulateDistricts.dart';
@@ -13,13 +14,6 @@ class StateScreen extends StatefulWidget {
 }
 
 class _StateScreenState extends State<StateScreen> {
-  RegExp reg = new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
-  Function mathFunc = (Match match) => '${match[1]},';
-
-  String insertCommas(String number) {
-    return number.replaceAllMapped(reg, mathFunc).toString();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -33,32 +27,50 @@ class _StateScreenState extends State<StateScreen> {
         child: Container(
             padding: EdgeInsets.symmetric(vertical: 10),
             decoration: BoxDecoration(
-                color: Color.fromRGBO(3000, 3000, 3000, 0.5),
-                borderRadius: BorderRadius.circular(30)),
+                color: Colors.black, borderRadius: BorderRadius.circular(30)),
             child: Column(
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.only(bottom: 10, top: 5),
                   alignment: Alignment.center,
-                  child: Text(
-                    widget.map['state'],
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 27,
-                        fontWeight: FontWeight.bold),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Text(
+                        widget.map['state'],
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 27,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      RichText(
+                          text: TextSpan(children: <TextSpan>[
+                        TextSpan(
+                            text: 'Total  ',
+                            style: TextStyle(
+                                color: Colors.limeAccent,
+                                fontSize: 21,
+                                fontWeight: FontWeight.bold)),
+                        TextSpan(
+                          text:
+                              '${InsertCommas().insertCommas(widget.map['confirmed'].toString())}',
+                          style: TextStyle(
+                              color: Colors.deepOrangeAccent,
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold),
+                        )
+                      ])),
+                    ],
                   ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    countryWidget(widget.map['confirmed'], 'Confirmed',
-                        Colors.deepOrangeAccent),
                     countryWidget(
                         widget.map['active'], 'Active', Colors.orangeAccent),
-                        countryWidget(
-                        widget.map['recovered'], 'Recovered', Colors.greenAccent),
-                    countryWidget(
-                        widget.map['deaths'], 'Deaths', Colors.red),
+                    countryWidget(widget.map['recovered'], 'Recovered',
+                        Colors.greenAccent),
+                    countryWidget(widget.map['deaths'], 'Deaths', Colors.red),
                   ],
                 ),
               ],

@@ -12,7 +12,6 @@ class GlobalScreen extends StatefulWidget {
 }
 
 class _GlobalScreenState extends State<GlobalScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -20,36 +19,47 @@ class _GlobalScreenState extends State<GlobalScreen> {
       child: Container(
         padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
-            color: Color.fromRGBO(3000, 3000, 3000, 0.3),
-            borderRadius: BorderRadius.circular(30)),
+            color: Colors.black87, borderRadius: BorderRadius.circular(30)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            SizedBox(
+              height: 20,
+            ),
             Padding(
               padding: EdgeInsets.only(bottom: 10),
-              child: Text(
-                'GLOBAL',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Text(
+                    'GLOBAL',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  RichText(
+                      text: TextSpan(children: <TextSpan>[
+                    TextSpan(
+                        text: 'Total  ',
+                        style: TextStyle(
+                            color: Colors.limeAccent,
+                            fontSize: 21,
+                            fontWeight: FontWeight.bold)),
+                    TextSpan(
+                      text:
+                          '${InsertCommas().insertCommas(widget.map['confirmed'].toString())}',
+                      style: TextStyle(
+                          color: Colors.deepOrangeAccent,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ])),
+                ],
               ),
             ),
-            Container(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: Colors.white70,
-                    borderRadius: BorderRadius.circular(30)),
-                child: Text(
-                  'Total ${InsertCommas().insertCommas(widget.map['confirmed'].toString())}',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 27,
-                      color: Colors.orange[900]),
-                )),
             SizedBox(
-              height: 10,
+              height: 20,
             ),
             Container(
               child: Row(
@@ -64,11 +74,12 @@ class _GlobalScreenState extends State<GlobalScreen> {
                 ],
               ),
             ),
+            SizedBox(
+              height: 20,
+            ),
           ],
         ),
       ),
     );
   }
-
- 
 }

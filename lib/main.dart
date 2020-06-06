@@ -26,11 +26,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool loading = true;
 
-  Map<String, dynamic> globalMap;
-  Map<String, dynamic> countryMap;
-  List<dynamic> stateList;
+  var globalMap;
+  var countryMap;
+  var telanganaMap;
+  var stateList;
+  Map hyderabadMap;
 
-  Future<void> fetchAPIData() async {
+  fetchAPIData() async {
     while (loading) {
       final globalResponse = await http.get('https://corona-api.com/timeline');
       final countryResponse =
@@ -49,10 +51,15 @@ class _HomePageState extends State<HomePage> {
 
         stateList = json.decode(stateResponse.body);
 
+        stateList.forEach((element) {
+          if ((element['id'] == 'IN-TG')) {
+            telanganaMap = element;
+          }
+        });
+
         setState(() {
           loading = false;
         });
-        return true;
       }
     }
   }
@@ -105,7 +112,7 @@ class _HomePageState extends State<HomePage> {
                               map: countryMap,
                             ),
                           ),
-                          StateScreen(map: stateList[12]),
+                          StateScreen(map: telanganaMap),
                         ],
                       ),
                     ],

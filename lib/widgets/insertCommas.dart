@@ -1,8 +1,7 @@
-class InsertCommas {
-  RegExp reg = new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
-  Function mathFunc = (Match match) => '${match[1]},';
+import 'package:intl/intl.dart';
 
-  String insertCommas(String number) {
-    return number.replaceAllMapped(reg, mathFunc).toString();
+class InsertCommas {
+  String insertCommas(var number) {
+    return NumberFormat.compact().format(double.parse(number));
   }
 }

@@ -1,5 +1,6 @@
 import 'package:covid19tracker/widgets/textBox.dart';
 import 'package:flutter/material.dart';
+import '../widgets/insertCommas.dart';
 
 class CountryScreen extends StatefulWidget {
   final Map map;
@@ -11,17 +12,6 @@ class CountryScreen extends StatefulWidget {
 }
 
 class _CountryScreenState extends State<CountryScreen> {
-  RegExp reg = new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
-  Function mathFunc = (Match match) => '${match[1]},';
-
-  String insertCommas(String number) {
-    return number.replaceAllMapped(reg, mathFunc).toString();
-  }
-
-  String toInt(double number) {
-    return number.toStringAsFixed(3);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -29,35 +19,43 @@ class _CountryScreenState extends State<CountryScreen> {
       child: Container(
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
-            color: Color.fromRGBO(3000, 3000, 3000, 0.5),
-            borderRadius: BorderRadius.circular(30)),
+            color: Colors.black, borderRadius: BorderRadius.circular(30)),
         child: Column(
           children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(bottom: 10),
-              child: Text(
-                'INDIA',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-            Container(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: Colors.white70,
-                    borderRadius: BorderRadius.circular(30)),
-                child: Text(
-                  'Total ${insertCommas(widget.map['timeline'][0]['confirmed'].toString())}',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 27,
-                      color: Colors.orange[900]),
-                )),
             SizedBox(
-              height: 10,
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Text(
+                  'INDIA',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold),
+                ),
+                RichText(
+                    text: TextSpan(children: <TextSpan>[
+                  TextSpan(
+                      text: 'Total  ',
+                      style: TextStyle(
+                          color: Colors.limeAccent,
+                          fontSize: 21,
+                          fontWeight: FontWeight.bold)),
+                  TextSpan(
+                    text:
+                        '${InsertCommas().insertCommas(widget.map['timeline'][0]['confirmed'].toString())}',
+                    style: TextStyle(
+                        color: Colors.deepOrangeAccent,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold),
+                  )
+                ])),
+              ],
+            ),
+            SizedBox(
+              height: 20,
             ),
             Container(
               child: Row(
@@ -82,7 +80,7 @@ class _CountryScreenState extends State<CountryScreen> {
               ),
             ),
             SizedBox(
-              height: 15,
+              height: 20,
             ),
             Container(
                 alignment: Alignment.topLeft,
@@ -92,11 +90,12 @@ class _CountryScreenState extends State<CountryScreen> {
                     Column(
                       children: <Widget>[
                         Text(
-                          toInt(widget.map['latest_data']['calculated']
-                              ['recovery_rate']),
+                          widget.map['latest_data']['calculated']
+                                  ['recovery_rate']
+                              .toStringAsExponential(2),
                           style: TextStyle(
                               color: Colors.limeAccent,
-                              fontSize: 23,
+                              fontSize: 19,
                               fontWeight: FontWeight.bold),
                         ),
                         SizedBox(
@@ -106,7 +105,7 @@ class _CountryScreenState extends State<CountryScreen> {
                           'Recovery Rate',
                           style: TextStyle(
                               color: Colors.white,
-                              fontSize: 14,
+                              fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
                       ],
@@ -114,11 +113,11 @@ class _CountryScreenState extends State<CountryScreen> {
                     Column(
                       children: <Widget>[
                         Text(
-                          toInt(widget.map['latest_data']['calculated']
-                              ['death_rate']),
+                          widget.map['latest_data']['calculated']['death_rate']
+                              .toStringAsFixed(2),
                           style: TextStyle(
                               color: Colors.limeAccent,
-                              fontSize: 23,
+                              fontSize: 19,
                               fontWeight: FontWeight.bold),
                         ),
                         SizedBox(
@@ -128,13 +127,16 @@ class _CountryScreenState extends State<CountryScreen> {
                           'Death Rate',
                           style: TextStyle(
                               color: Colors.white,
-                              fontSize: 14,
+                              fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
                       ],
                     )
                   ],
                 )),
+            SizedBox(
+              height: 20,
+            ),
           ],
         ),
       ),
