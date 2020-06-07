@@ -32,7 +32,7 @@ class _GlobalScreenState extends State<GlobalScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Text(
-                    'GLOBAL',
+                    'Global',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 36,
@@ -51,7 +51,7 @@ class _GlobalScreenState extends State<GlobalScreen> {
                           '${InsertCommas().insertCommas(widget.map['confirmed'].toString())}',
                       style: TextStyle(
                           color: Colors.deepOrangeAccent,
-                          fontSize: 25,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold),
                     )
                   ])),
@@ -73,6 +73,9 @@ class _GlobalScreenState extends State<GlobalScreen> {
                       'Death', Colors.redAccent),
                 ],
               ),
+            ),
+            Container(
+              child: Text('test'),
             ),
             SizedBox(
               height: 20,

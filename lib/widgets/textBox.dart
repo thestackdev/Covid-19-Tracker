@@ -13,7 +13,7 @@ Widget textBox(dynamic total, dynamic newNum, String dataType, Color color) {
             text: '${InsertCommas().insertCommas(total.toString())}\n',
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 27,
+              fontSize: 21,
               color: color,
             ),
           ),
@@ -21,7 +21,7 @@ Widget textBox(dynamic total, dynamic newNum, String dataType, Color color) {
               text: '+${InsertCommas().insertCommas(newNum.toString())}\n',
               style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
+                  fontSize: 14,
                   color: color,
                   height: 1.5)),
           TextSpan(

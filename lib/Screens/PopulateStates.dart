@@ -15,96 +15,80 @@ class PopulateStates extends StatefulWidget {
 }
 
 class _PopulateStatesState extends State<PopulateStates> {
-  RegExp reg = new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
-
-  Function mathFunc = (Match match) => '${match[1]},';
-
-  String insertCommas(String number) {
-    return number.replaceAllMapped(reg, mathFunc).toString();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black87,
+        title: Text(
+          'State Analysis',
+          style: TextStyle(
+              color: Colors.deepOrangeAccent,
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 1.0),
+        ),
+        centerTitle: true,
+      ),
       body: Stack(
         children: <Widget>[
           backGround(),
-          Padding(
-            padding: EdgeInsets.only(top: 30, bottom: 20),
-            child: Container(
-              alignment: Alignment.topCenter,
-              child: Text(
-                'State Alanysis',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-          ),
-          Positioned(
-            top: 50,
-            bottom: 0,
-            right: 0,
-            left: 0,
-            child: ListView.builder(
-                itemCount: widget.statesList.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.all(5),
-                    child: GestureDetector(
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PopulateDistricts(
-                                  districtList: widget.statesList[index]
-                                      ['districtData']))),
-                      child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(30)),
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                padding: EdgeInsets.only(bottom: 10, top: 5),
-                                alignment: Alignment.center,
-                                child: Text(
-                                  widget.statesList[index]['state'],
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 27,
-                                      fontWeight: FontWeight.bold),
-                                ),
+          ListView.builder(
+              itemCount: widget.statesList.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: EdgeInsets.all(5),
+                  child: GestureDetector(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PopulateDistricts(
+                                districtList: widget.statesList[index]
+                                    ['districtData']))),
+                    child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(30)),
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.only(bottom: 10, top: 5),
+                              alignment: Alignment.center,
+                              child: Text(
+                                widget.statesList[index]['state'],
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 27,
+                                    fontWeight: FontWeight.bold),
                               ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  countryWidget(
-                                      widget.statesList[index]['confirmed'],
-                                      'Confirmed',
-                                      Colors.deepOrangeAccent),
-                                  countryWidget(
-                                      widget.statesList[index]['active'],
-                                      'Active',
-                                      Colors.lime),
-                                  countryWidget(
-                                      widget.statesList[index]['recovered'],
-                                      'Recovered',
-                                      Colors.greenAccent),
-                                  countryWidget(
-                                      widget.statesList[index]['deaths'],
-                                      'Deaths',
-                                      Colors.red),
-                                ],
-                              ),
-                            ],
-                          )),
-                    ),
-                  );
-                }),
-          )
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                countryWidget(
+                                    widget.statesList[index]['confirmed'],
+                                    'Confirmed',
+                                    Colors.deepOrangeAccent),
+                                countryWidget(
+                                    widget.statesList[index]['active'],
+                                    'Active',
+                                    Colors.lime),
+                                countryWidget(
+                                    widget.statesList[index]['recovered'],
+                                    'Recovered',
+                                    Colors.greenAccent),
+                                countryWidget(
+                                    widget.statesList[index]['deaths'],
+                                    'Deaths',
+                                    Colors.red),
+                              ],
+                            ),
+                          ],
+                        )),
+                  ),
+                );
+              })
         ],
       ),
     );

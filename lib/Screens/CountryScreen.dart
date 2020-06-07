@@ -29,7 +29,7 @@ class _CountryScreenState extends State<CountryScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Text(
-                  'INDIA',
+                  'India',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 36,
